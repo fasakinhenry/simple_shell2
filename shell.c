@@ -26,7 +26,6 @@ int main(void)
 		}
 
 		token = strtok(input, " \n");
-		
 		if  (token != NULL)
 		{
 			pid_t child = fork();
@@ -41,6 +40,7 @@ int main(void)
 				char *args[2];
 				args[0] = token;
 				args[1] = NULL;
+
 				execve(token, args, environ);
 				perror("execve");
 				free(args[0]);

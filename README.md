@@ -280,7 +280,7 @@ You don’t have to:
 `execve` *will be the core part of your Shell, don’t forget to pass the environ to it…*
 
 ``` shell
-julien@ubuntu:~/shell$ ./shell 
+julien@ubuntu:~/shell$ ./shell
 #cisfun$ ls
 ./shell: No such file or directory
 #cisfun$ /bin/ls
@@ -344,7 +344,7 @@ TERM=xterm-256color
 PATH=/home/julien/bin:/home/julien/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 DISPLAY=:0
 $ exit
-julien@ubuntu:~/shell$ 
+julien@ubuntu:~/shell$
 ```
 
 ### Task 6
@@ -378,7 +378,7 @@ julien@ubuntu:~/shell$ ./shell_0.4.1
 $ exit 98
 julien@ubuntu:~/shell$ echo $?
 98
-julien@ubuntu:~/shell$ 
+julien@ubuntu:~/shell$
 ```
 
 ### Task 9
@@ -503,8 +503,8 @@ $ echo $$
 5104
 $ echo $PATH
 /home/julien/bin:/home/julien/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-$ exit 
-julien@ubuntu:~/shell$ 
+$ exit
+julien@ubuntu:~/shell$
 ```
 
 ### Task 15
@@ -518,7 +518,7 @@ julien@ubuntu:~/shell$ sh
 $ echo $$ # ls -la
 5114
 $ exit
-julien@ubuntu:~/shell$ 
+julien@ubuntu:~/shell$
 ```
 
 ### Task 16
