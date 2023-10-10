@@ -5,7 +5,7 @@ int main(void)
 	while (1)
 	{
 		char **args = get_input();
-	
+
 		if (args == NULL)
 		{
 			write(STDOUT_FILENO, "Error occurred while getting input.\n", 36);
@@ -21,8 +21,7 @@ int main(void)
 			{
 				perror("problem");
 				exit(EXIT_FAILURE);
-			}
-			else if (child == 0)
+			} else if (child == 0)
 			{
 				execve(args[0], args, environ);
 				perror("execve");
@@ -32,13 +31,13 @@ int main(void)
 				}
 				free(args);
 				exit(EXIT_FAILURE);
-			}
-			else
+			} else
 			{
 				wait(NULL);
-				for (i = 0; args[i] != NULL; i++)                                                {  
-                                        free(args[i]);
-                                }
+				for (i = 0; args[i] != NULL; i++)
+				{
+					free(args[i]);
+				}
 				free(args);
 			}
 		}
