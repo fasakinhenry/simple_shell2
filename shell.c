@@ -4,32 +4,18 @@ int main(void)
 {
 	while (1)
 	{
-		char *input = NULL;
-		size_t len = 0;
-		char *token;
-		ssize_t response;
-
-		write(STDOUT_FILENO, "$ ", 2);
-
-		response = _getline(&input, &len, stdin);
-		if (response == (ssize_t)-1)
+		char **args = get_input();
+	
+		if (args == NULL)
 		{
-			free(input);
-			exit(EXIT_FAILURE);
-
-		}
-		else if (response == 0)
-		{
-			printf("EOF detected. Exiting the shell.\n");
-			free(input);
-			exit(EXIT_SUCCESS);
+			write(STDOUT_FILENO, "Error occurred while getting input.\n", 36);
+			continue;
 		}
 
-		token = strtok(input, " \n");
-		
-		if  (token != NULL)
+		if  (args[0] != NULL)
 		{
 			pid_t child = fork();
+			int i;
 
 			if (child == -1)
 			{
@@ -38,19 +24,23 @@ int main(void)
 			}
 			else if (child == 0)
 			{
-				char *args[2];
-				args[0] = token;
-				args[1] = NULL;
-				execve(token, args, environ);
+				execve(args[0], args, environ);
 				perror("execve");
-				free(args[0]);
+				for (i = 0; args[i] != NULL; i++)
+				{
+					free(args[i]);
+				}
+				free(args);
 				exit(EXIT_FAILURE);
 			}
 			else
 			{
 				wait(NULL);
+				for (i = 0; args[i] != NULL; i++)                                                {  
+                                        free(args[i]);
+                                }
+				free(args);
 			}
 		}
-		free(input);
 	}
 }
