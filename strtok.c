@@ -7,6 +7,7 @@
  *
  * Return: 1 if match, 0 if not
  */
+
 unsigned int similar(char chr, const char *string)
 {
 	unsigned int i;

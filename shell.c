@@ -21,10 +21,12 @@ int main(void)
 			{
 				perror("problem");
 				exit(EXIT_FAILURE);
-			}
-			else if (child == 0)
+			} else if (child == 0)
 			{
-				execve(args[0], args, environ);
+				char *args[2];
+				args[0] = token;
+				args[1] = NULL;
+				execve(token, args, environ);
 				perror("execve");
 				for (i = 0; args[i] != NULL; i++)
 				{
@@ -32,8 +34,7 @@ int main(void)
 				}
 				free(args);
 				exit(EXIT_FAILURE);
-			}
-			else
+			} else
 			{
 				wait(NULL);
 				for (i = 0; args[i] != NULL; i++)
