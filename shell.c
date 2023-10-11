@@ -43,6 +43,7 @@ int main(void)
 		}
 		else
 		{
+			int i;
 			for (i = 0; args[i] != NULL; i++)
 			{
 				free(args[i]);
