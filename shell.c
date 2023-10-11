@@ -5,14 +5,14 @@ int main(void)
 	while (1)
 	{
 		char **args = get_input();
-	
+
 		if (args == NULL)
 		{
 			write(STDOUT_FILENO, "Error occurred while getting input.\n", 36);
 			continue;
 		}
 
-		if  (args[0] != NULL)
+		if  (args[0] != NULL && access(args[0], X_OK) == 0)
 		{
 			pid_t child = fork();
 			int i;
@@ -36,11 +36,18 @@ int main(void)
 			else
 			{
 				wait(NULL);
-				for (i = 0; args[i] != NULL; i++)                                                {  
-                                        free(args[i]);
-                                }
+				for (i = 0; args[i] != NULL; i++)
+					free(args[i]);
 				free(args);
 			}
+		}
+		else
+		{
+			for (i = 0; args[i] != NULL; i++)
+			{
+				free(args[i]);
+			}
+			free(args);
 		}
 	}
 }

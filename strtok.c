@@ -3,7 +3,7 @@
 /**
  * similar - checks if character matches any value in string
  * @chr: character
- * @str: string
+ * @string: string
  *
  * Return: 1 if match, 0 if not
  */
