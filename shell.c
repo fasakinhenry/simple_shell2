@@ -12,9 +12,7 @@ int main(void)
 			continue;
 		}
 
-		token = strtok(input, " \n");
-		
-		if  (token != NULL)
+		if  (args[0] != NULL && access(args[0], X_OK) == 0)
 		{
 			pid_t child = fork();
 			int i;
@@ -40,11 +38,18 @@ int main(void)
 			{
 				wait(NULL);
 				for (i = 0; args[i] != NULL; i++)
-				{
 					free(args[i]);
-				}
 				free(args);
 			}
+		}
+		else
+		{
+			int i;
+			for (i = 0; args[i] != NULL; i++)
+			{
+				free(args[i]);
+			}
+			free(args);
 		}
 	}
 }
