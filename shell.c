@@ -5,6 +5,7 @@ int main(void)
 	while (1)
 	{
 		char **args = get_input();
+		int i;
 
 		if (args == NULL)
 		{
@@ -12,41 +13,54 @@ int main(void)
 			continue;
 		}
 
-		if  (args[0] != NULL && access(args[0], X_OK) == 0)
+		if (_strchr(args[0], '/') != NULL)
 		{
-			pid_t child = fork();
-			int i;
+			if  (args[0] != NULL && access(args[0], X_OK) == 0)
+			{
+				pid_t child = fork();
+				int i;
 
-			if (child == -1)
+				if (child == -1)
+				{
+					perror("problem");
+					exit(EXIT_FAILURE);
+				}
+			       	else if (child == 0)
+				{
+					execve(args[0], args, environ);
+					perror("execve");
+					for (i = 0; args[i] != NULL; i++)
+						free(args[i]);
+					free(args);
+					exit(EXIT_FAILURE);
+				}
+				else
+				{
+					wait(NULL);
+					for (i = 0; args[i] != NULL; i++)
+						free(args[i]);
+					free(args);
+				}
+			}
+			else
 			{
-				perror("problem");
-				exit(EXIT_FAILURE);
-			} else if (child == 0)
-			{
-				execve(args[0], args, environ);
-				perror("execve");
+				int i;
 				for (i = 0; args[i] != NULL; i++)
 				{
 					free(args[i]);
 				}
 				free(args);
-				exit(EXIT_FAILURE);
-			} else
-			{
-				wait(NULL);
-				for (i = 0; args[i] != NULL; i++)
-					free(args[i]);
-				free(args);
 			}
 		}
 		else
 		{
-			int i;
-			for (i = 0; args[i] != NULL; i++)
+			if (execute_command(args) == -1)
 			{
-				free(args[i]);
+				write(STDOUT_FILENO, "Command not found.\n", 19);
+				for (i = 0; args[i] != NULL; i++)
+					free(args[i]);
+				free(args);
 			}
-			free(args);
 		}
 	}
 }
