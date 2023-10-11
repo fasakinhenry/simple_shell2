@@ -23,10 +23,7 @@ int main(void)
 				exit(EXIT_FAILURE);
 			} else if (child == 0)
 			{
-				char *args[2];
-				args[0] = token;
-				args[1] = NULL;
-				execve(token, args, environ);
+				execve(args[0], args, environ);
 				perror("execve");
 				for (i = 0; args[i] != NULL; i++)
 				{
