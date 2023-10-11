@@ -1,6 +1,6 @@
 #include "main.h"
 
-/** 
+/**
  *
- * getenv = gets the environment variables
+ * getenv - gets the environment variables
  */
