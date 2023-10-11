@@ -1,8 +1,10 @@
 #include "main.h"
 
 /**
- * get_input - This function prints the prompt and gets the user's input (Command and Arguments)
- * Return: An array containing the command as the first item (args[0]), and the arguments as separate items
+ * get_input - This function prints the prompt
+ * and also gets the user's input (Command and Arguments)
+ * Return: An array containing the command as the first item (args[0]),
+ * and the arguments as separate items
  */
 
 char **get_input(void)
@@ -36,6 +38,7 @@ char **get_input(void)
 	while (token != NULL)
 	{
 		char **temp = realloc(args, (arg_count + 1) * sizeof(char *));
+
 		if (temp == NULL)
 		{
 			perror("bash: realloc");
@@ -69,5 +72,5 @@ char **get_input(void)
 
 	free(input);
 
-	return(args);
+	return (args);
 }
