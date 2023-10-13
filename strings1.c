@@ -17,9 +17,19 @@ char *_strcpy(char *dest, const char *src)
 	return (dest);
 }
 
+/**
+ * _strcmp - compares two strings s1 and s2
+ * @s1: The first string
+ * @s2: The second string
+ *
+ * Return: 0, if strings are equal
+ * if first string < second string, -1
+ * if first string > second string, 1
+*/
+
 int _strcmp(const char *s1, const char *s2)
 {
-	while(*s1 != '\0' && *s2 != '\0')
+	while (*s1 != '\0' && *s2 != '\0')
 	{
 		if (*s1 != *s2)
 		{
@@ -38,17 +48,18 @@ int _strcmp(const char *s1, const char *s2)
  *
  * Return: A newly allocated string containing the concatenated s1 and s2
  */
+
 char *_strconcat(const char *s1, const char *s2)
 {
 	char *result;
 	int len1 = _strlen(s1);
- 	int len2 = _strlen(s2);
+	int len2 = _strlen(s2);
 	int i, j;
 
 	result = malloc(len1 + len2 + 2);
 	if (result == NULL)
 	{
- 		perror("Memory allocation error");
+		perror("Memory allocation error");
 		return (NULL);
 	}
 
@@ -77,15 +88,24 @@ char *_strconcat(const char *s1, const char *s2)
  */
 int _strlen(const char *s)
 {
-    int len = 0;
+	int len = 0;
 
-    while (s[len])
+	while (s[len])
 	{
-        	len++;
+		len++;
 	}
 
 	return (len);
 }
+
+/**
+ * _strchr - Chceks the equality of two strings
+ * @s: First string to be checked
+ * @c: Second string to be checked
+ *
+ * Return: @s if the strings are equal
+ * else NULL is returned
+*/
 
 char *_strchr(char *s, char c)
 {
@@ -95,5 +115,5 @@ char *_strchr(char *s, char c)
 			return (s);
 		s++;
 	}
-	return NULL;
+	return (NULL);
 }
