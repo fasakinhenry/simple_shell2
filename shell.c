@@ -25,7 +25,7 @@ int main(void)
 					perror("problem");
 					exit(EXIT_FAILURE);
 				}
-			       	else if (child == 0)
+				else if (child == 0)
 				{
 					execve(args[0], args, environ);
 					perror("execve");

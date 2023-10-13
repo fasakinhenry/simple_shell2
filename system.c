@@ -12,6 +12,7 @@ char *_getenv(const char *name)
 	while (*env != NULL)
 	{
 		int name_len = 0;
+
 		while ((*env)[name_len] != '=' && (*env)[name_len] != '\0')
 			name_len++;
 

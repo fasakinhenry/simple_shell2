@@ -1,7 +1,9 @@
 #include "main.h"
 
-
-
+/**
+ * execute_command - execute commands if command is detected
+ * @args: command to be executed
+*/
 int execute_command(char **args)
 {
 	char *path = _getenv("PATH");
