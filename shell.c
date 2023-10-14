@@ -54,13 +54,22 @@ int main(void)
 		}
 		else
 		{
+			/*
 			if (execute_command(args) == -1)
 			{
 				write(STDOUT_FILENO, "Command not found.\n", 19);
 				for (i = 0; args[i] != NULL; i++)
 					free(args[i]);
 				free(args);
+			}*/
+			execute_command(args);
+
+			for (i = 0; args[i] != NULL; i++) {
+			free(args[i]);
 			}
+			free(args);
+
+			
 		}
 	}
 }
