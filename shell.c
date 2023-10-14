@@ -54,6 +54,14 @@ int main(void)
 		}
 		else
 		{
+			if (_strcmp(args[0], "exit") == 0) {
+				int i;
+				for (i = 0; args[i] != NULL; i++) {
+					free(args[i]);
+				}
+				free(args);
+				exit(0);
+            		}
 			/*
 			if (execute_command(args) == -1)
 			{
