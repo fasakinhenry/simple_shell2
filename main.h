@@ -26,6 +26,8 @@ char **get_input(void);
 
 char *_getenv(const char *name);
 int execute_command(char **args);
+int execute_commands(char **args);
+int execute_command2(char **args);
 /* Function execution */
 
 #endif
