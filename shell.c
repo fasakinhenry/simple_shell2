@@ -56,6 +56,12 @@ int main(void)
 		{
 			if (_strcmp(args[0], "exit") == 0) {
 				int i;
+				if (args[1] != NULL) {
+					/* Normal/defualt exit status 
+					int exitstatus;*/
+					int exit_status = string_to_int_conv(args[1]);
+					exit(exit_status);
+				}
 				for (i = 0; args[i] != NULL; i++) {
 					free(args[i]);
 				}
@@ -73,10 +79,9 @@ int main(void)
 			execute_command(args);
 
 			for (i = 0; args[i] != NULL; i++) {
-			free(args[i]);
+				free(args[i]);
 			}
 			free(args);
-
 			
 		}
 	}
