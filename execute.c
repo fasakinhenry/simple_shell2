@@ -29,7 +29,7 @@ int execute_commands(char **args)
 				if (child == -1)
 				{
 					perror("problem");
-					exit(EXIT_FAILURE);
+					_exit(EXIT_FAILURE);
 				}
 				else if (child == 0)
 				{
@@ -37,7 +37,7 @@ int execute_commands(char **args)
 					perror("execute_command: execve");
 					free(path_with_slash);
 					free(full_path);
-					exit(EXIT_FAILURE);
+					_exit(EXIT_FAILURE);
 				}
 				else
 				{
@@ -89,7 +89,7 @@ int execute_command(char **args)
 		{
 			execve(args[0], args, environ);
 			perror("execve");
-			exit(EXIT_FAILURE);
+			_exit(EXIT_FAILURE);
 		} else
 		{
 			int status, exit_status;
@@ -132,15 +132,15 @@ int execute_command(char **args)
 			{
 				execve(path, args, environ);
 				perror("execve");
-				exit(EXIT_FAILURE);
+				_exit(EXIT_FAILURE);
 			} else
 			{
 				int status;
 				int exit_status;
 
 				waitpid(child, &status, 0);
-				if ((status & 255) == 0)
-					exit_status = (status >> 8) & 255;
+				if ((status & 0xff) == 0)
+					exit_status = (status >> 8) & 0xff;
 				else
 					exit_status = -1;
 				return (exit_status);
