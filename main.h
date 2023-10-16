@@ -28,6 +28,10 @@ char *_getenv(const char *name);
 int execute_command(char **args);
 int execute_commands(char **args);
 int execute_command2(char **args);
+
+/* Converts string to integer */
+int string_to_int_conv(const char *str);
+
 /* Function execution */
 
 #endif
