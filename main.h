@@ -26,12 +26,12 @@ char **get_input(void);
 
 char *_getenv(const char *name);
 int execute_command(char **args);
-int execute_commands(char **args);
-int execute_command2(char **args);
 
 /* Converts string to integer */
 int string_to_int_conv(const char *str);
-
+int env_builtin(void);
 /* Function execution */
+void setenv_builtin(char **args);
+void unsetenv_builtin(char **args);
 
 #endif
