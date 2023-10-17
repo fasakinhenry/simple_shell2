@@ -1,5 +1,12 @@
 #include "main.h"
 
+/**
+ * main - This is the main code for the shell
+ *
+ * Return: on success, 0
+ * on error, -1 is returned and the errno is set appropriately
+*/
+
 int main(void)
 {
 	while (1)
@@ -67,6 +74,17 @@ int main(void)
 				}
 				free(args);
 				exit(0);
+            		} else if (_strcmp(args[0], "env") == 0)
+        		{
+                		/* Call the env_builtin function */
+                		env_builtin();
+            		}else if (_strcmp(args[0], "setenv") == 0)
+            		{
+                		setenv_builtin(args);
+            		}
+            		else if (_strcmp(args[0], "unsetenv") == 0)
+            		{
+                		unsetenv_builtin(args);
             		}
 			/*
 			if (execute_command(args) == -1)
