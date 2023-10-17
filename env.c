@@ -1,15 +1,14 @@
 #include "main.h"
 
 /**
- * env_builtin - Implement the env built-in, which prints the current environment.
+ * env_builtin - Implement the env built-in,
+ * which prints the current environment.
  *
  * Return: Always returns 0.
  */
 int env_builtin(void)
 {
 	int i;
-	/* Access the current environment variables */
-	extern char **environ; 
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
