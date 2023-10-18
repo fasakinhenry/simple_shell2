@@ -38,4 +38,8 @@ char *custom_getenv(const char *var);
 int cd_builtin(char **args);
 int custom_setenv(const char *name, const char *value);
 
+int _setenv(const char *name, const char *value, int overwrite);
+
+char *_strconcats(const char *str1, const char *str2);
+
 #endif
