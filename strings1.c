@@ -81,6 +81,24 @@ char *_strconcat(const char *s1, const char *s2)
 }
 
 /**
+ * _strlen - Returns the length of a string
+ * @s: The string to measure
+ *
+ * Return: The length of the string
+ */
+int _strlen(const char *s)
+{
+	int len = 0;
+
+	while (s[len])
+	{
+		len++;
+	}
+
+	return (len);
+}
+
+/**
  * _strchr - Chceks the equality of two strings
  * @s: First string to be checked
  * @c: Second string to be checked
