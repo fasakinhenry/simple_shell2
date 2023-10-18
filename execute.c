@@ -21,6 +21,17 @@ int execute_command(char **args)
 				return (-1);
 			}
 		}
+		else
+		{
+			char *homeDir = custom_getenv("HOME");
+			args[1] = homeDir;
+
+			if (chdir(args[1]) != 0)
+                        {
+                                perror("cd");
+                                return (-1);
+                        }
+		}
 		return (0);
 	}
 	if (access(args[0], X_OK) == 0)
