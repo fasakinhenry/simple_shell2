@@ -25,6 +25,8 @@ int execute_command(char **args)
 			char *homeDir = custom_getenv("HOME");
 			args[1] = homeDir;
 
+			printf("Home Directory: %s\n", homeDir);
+
 			if (chdir(args[1]) != 0)
                         {
                                 perror("cd");

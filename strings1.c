@@ -118,3 +118,26 @@ char *_strchr(char *s, char c)
 	return (NULL);
 }
 
+/**
+ * _strncmp - Compares the first n characters of two strings
+ * @s1: The first string
+ * @s2: The second string
+ * @n: The number of characters to compare
+ *
+ * Return:
+ *  - 0 if the first n characters of s1 and s2 are equal.
+ *  - A positive integer if s1 is greater than s2.
+ *  - A negative integer if s1 is less than s2.
+ */
+int _strncmp(const char *s1, const char *s2, size_t n)
+{
+    size_t i;
+    for (i = 0; i < n; i++)
+    {
+        if (s1[i] == '\0' && s2[i] == '\0')
+            return 0;
+        if (s1[i] != s2[i])
+            return (s1[i] - s2[i]);
+    }
+    return 0;
+}

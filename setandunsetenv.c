@@ -70,18 +70,27 @@ void unsetenv_builtin(char **args)
 char *custom_getenv(const char *name)
 {
 	int i = 0;
+	int name_length = _strlen(name);
 
 	if (name == NULL)
 		return (NULL);
 
 	for (; environ[i] != NULL; i++)
 	{
-		if (_strcmp(environ[i], name) == 0)
+		char *env_var = environ[i];
+
+		printf("Checking environ[%d]: %s\n", i, environ[i]);
+		if (strncmp(env_var, name, name_length) == 0)
 		{
-			return (environ[i] + _strlen(name) + 1);
+			char *value = strchr(env_var, '=');
+
+			if (value != NULL)
+			{
+				printf("Found a match for %s! Returning its value.\n", name);
+				return (environ[i] + _strlen(name) + 1);
+			}
 		}
 	}
+	printf("No match found for %s. Returning NULL.\n", name);
 	return (NULL);
 }
-
-
