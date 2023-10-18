@@ -12,7 +12,6 @@ int execute_command(char **args)
 		return (0);
 	if (_strcmp(args[0], "cd") == 0)
 	{
-		
 		if (args[1] != NULL)
 		{
 			if (chdir(args[1]) != 0)
