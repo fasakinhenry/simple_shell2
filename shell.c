@@ -74,11 +74,7 @@ int main(void)
 				}
 				free(args);
 				exit(0);
-            		} else if (_strcmp(args[0], "env") == 0)
-        		{
-                		/* Call the env_builtin function */
-                		env_builtin();
-            		}else if (_strcmp(args[0], "setenv") == 0)
+            		} else if (_strcmp(args[0], "setenv") == 0)
             		{
                 		setenv_builtin(args);
             		}
@@ -86,6 +82,7 @@ int main(void)
             		{
                 		unsetenv_builtin(args);
             		}
+			
 			/*
 			if (execute_command(args) == -1)
 			{
