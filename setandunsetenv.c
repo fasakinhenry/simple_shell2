@@ -64,21 +64,24 @@ void unsetenv_builtin(char **args)
  * custom_getenv - Custom implementation of getenv
  * @name: Name of the environment variable to retrieve
  *
- * Return: A pointer to the value of the environment variable, or NULL if not found.
+ * Return: A pointer to the value of the environment variable,
+ * or NULL if not found.
  */
 char *custom_getenv(const char *name)
 {
 	int i = 0;
 
 	if (name == NULL)
-		return NULL;
+		return (NULL);
 
-	for (; environ[i] != NULL; i++) {
-		if (_strcmp(environ[i], name) == 0) {
-			return environ[i] + _strlen(name) + 1;
+	for (; environ[i] != NULL; i++)
+	{
+		if (_strcmp(environ[i], name) == 0)
+		{
+			return (environ[i] + _strlen(name) + 1);
 		}
 	}
-	return NULL;
+	return (NULL);
 }
 
 
