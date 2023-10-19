@@ -11,18 +11,7 @@ int execute_command(char **args)
 {
 	if (args[0] == NULL)
 		return (0);
-	if (_strcmp(args[0], "cd") == 0)
-	{
-		if (args[1] != NULL)
-		{
-			if (chdir(args[1]) != 0)
-			{
-				perror("cd");
-				return (-1);
-			}
-		}
-		return (0);
-	}
+
 	if (access(args[0], X_OK) == 0)
 	{
 		pid_t child = fork();

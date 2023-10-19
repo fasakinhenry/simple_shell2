@@ -36,7 +36,7 @@ void setenv_builtin(char **args);
 void unsetenv_builtin(char **args);
 
 char *custom_getenv(const char *var);
-int cd_builtin(char **args);
+void cd_builtin(char **args);
 int custom_setenv(const char *name, const char *value);
 
 int _setenv(const char *name, const char *value, int overwrite);
