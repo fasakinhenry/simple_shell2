@@ -1,11 +1,115 @@
 #include "main.h"
 
-/**
- * main - This is the main code for the shell
- *
- * Return: on success, 0
- * on error, -1 is returned and the errno is set appropriately
- */
+void run_path(char **args)
+{
+	if (args[0] != NULL && access(args[0], X_OK) == 0)
+	{
+		pid_t child = fork();
+		int i;
+
+		if (child == -1)
+		{
+			perror("problem");
+			exit(EXIT_FAILURE);
+		}
+		else if (child == 0)
+		{
+			execve(args[0], args, environ);
+			perror("execve");
+			for (i = 0; args[i] != NULL; i++)
+				free(args[i]);
+			free(args);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			wait(NULL);
+			for (i = 0; args[i] != NULL; i++)
+				free(args[i]);
+			free(args);
+		}
+	}
+	else
+	{
+		int i;
+
+		for (i = 0; args[i] != NULL; i++)
+		{
+			free(args[i]);
+		}
+		free(args);
+	}
+}
+
+void handle_exit(char **args)
+{
+	int i;
+
+	if (args[1] != NULL)
+	{
+		int exit_status = string_to_int_conv(args[1]);
+
+		for (i = 0; args[i] != NULL; i++)
+		{
+			free(args[i]);
+		}
+		free(args);
+		exit(exit_status);
+	}
+
+	for (i = 0; args[i] != NULL; i++)
+	{
+		free(args[i]);
+	}
+	free(args);
+	exit(0);
+}
+
+int handle_cd(char **args)
+{
+	char *new_directory = args[1], *home_directory = getenv("HOME"),
+	current_directory[4096];
+
+	if (new_directory == NULL || _strcmp(new_directory, "~") == 0)
+	{
+		new_directory = home_directory;
+	}
+	else if (_strcmp(new_directory, "-") == 0)
+	{
+		char *old_directory = getenv("OLDPWD");
+
+		if (old_directory != NULL)
+		{
+			new_directory = old_directory;
+		}
+		else
+		{
+			write(STDERR_FILENO, "OLDPWD environment variable not set\n", 37);
+			return (-1);
+		}
+	}
+
+	if (getcwd(current_directory, sizeof(current_directory)) == NULL)
+	{
+		perror("getcwd");
+		return (-1);
+	}
+
+	if (chdir(new_directory) != 0)
+	{
+		perror("cd");
+		return (-1);
+	}
+	else
+	{
+		if (setenv("OLDPWD", current_directory, 1) != 0 || setenv("PWD", new_directory, 1) != 0)
+		{
+			perror("setenv");
+			return (-1);
+		}
+	}
+	return (0);
+}
 
 int main(void)
 {
@@ -30,61 +134,13 @@ int main(void)
 
 		if (_strchr(args[0], '/') != NULL)
 		{
-			if (args[0] != NULL && access(args[0], X_OK) == 0)
-			{
-				pid_t child = fork();
-				int i;
-
-				if (child == -1)
-				{
-					perror("problem");
-					exit(EXIT_FAILURE);
-				}
-				else if (child == 0)
-				{
-					execve(args[0], args, environ);
-					perror("execve");
-					for (i = 0; args[i] != NULL; i++)
-						free(args[i]);
-					free(args);
-					exit(EXIT_FAILURE);
-				}
-				else
-				{
-					wait(NULL);
-					for (i = 0; args[i] != NULL; i++)
-						free(args[i]);
-					free(args);
-				}
-			}
-			else
-			{
-				int i;
-				for (i = 0; args[i] != NULL; i++)
-				{
-					free(args[i]);
-				}
-				free(args);
-			}
+			run_path(args);
 		}
 		else
 		{
 			if (_strcmp(args[0], "exit") == 0)
 			{
-				int i;
-				if (args[1] != NULL)
-				{
-					/* Normal/defualt exit status
-					int exitstatus;*/
-					int exit_status = string_to_int_conv(args[1]);
-					exit(exit_status);
-				}
-				for (i = 0; args[i] != NULL; i++)
-				{
-					free(args[i]);
-				}
-				free(args);
-				exit(0);
+				handle_exit(args);
 			}
 			else if (_strcmp(args[0], "env") == 0)
 			{
@@ -101,69 +157,18 @@ int main(void)
 			}
 			else if (_strcmp(args[0], "cd") == 0)
 			{
-				char *new_directory = args[1];
-				char *home_directory = getenv("HOME");
-				char current_directory[4096];
-
-				if (new_directory == NULL || _strcmp(new_directory, "~") == 0)
-				{
-					new_directory = home_directory;
-				}
-				else if (_strcmp(new_directory, "-") == 0)
-				{
-					char *old_directory = getenv("OLDPWD");
-					if (old_directory != NULL)
-					{
-						new_directory = old_directory;
-					}
-					else
-					{
-						write(STDERR_FILENO, "OLDPWD environment variable not set\n", 37);
-						continue;
-					}
-				}
-
-				if (getcwd(current_directory, sizeof(current_directory)) == NULL)
-				{
-					perror("getcwd");
-					continue;
-				}
-
-				if (chdir(new_directory) != 0)
-				{
-					perror("cd");
-				}
-				else
-				{
-					if (setenv("OLDPWD", current_directory, 1) != 0)
-					{
-						perror("setenv");
-					}
-					if (setenv("PWD", new_directory, 1) != 0)
-					{
-						perror("setenv");
-					}
-				}
+				handle_cd(args);
 			}
 			else
 			{
-
-				/*
-				if (execute_command(args) == -1)
-				{
-					write(STDOUT_FILENO, "Command not found.\n", 19);
-					for (i = 0; args[i] != NULL; i++)
-						free(args[i]);
-					free(args);
-				}*/
 				execute_command(args);
-
-				for (i = 0; args[i] != NULL; i++)
-				{
-					free(args[i]);
-				}
-				free(args);
 			}
+
+			for (i = 0; args[i] != NULL; i++)
+			{
+				free(args[i]);
+			}
+			free(args);
 		}
 	}
 }
