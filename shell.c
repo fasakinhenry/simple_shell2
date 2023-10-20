@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+ * run_path - This handles the running of commands with path
+ * @args: the argument to be passed into the cd command
+ *
+ * Return: on success, 0
+ * else -1 is returned and the errno is set appropriately
+*/
+
 void run_path(char **args)
 {
 	if (args[0] != NULL && access(args[0], X_OK) == 0)
@@ -41,6 +49,14 @@ void run_path(char **args)
 	}
 }
 
+/**
+ * handle_exit - This handles the exit command and conditions
+ * @args: the argument to be passed into the cd command
+ *
+ * Return: on success, 0
+ * else -1 is returned and the errno is set appropriately
+*/
+
 void handle_exit(char **args)
 {
 	int i;
@@ -65,15 +81,21 @@ void handle_exit(char **args)
 	exit(0);
 }
 
+/**
+ * handle_cd - This handles the cd command and conditions
+ * @args: the argument to be passed into the cd command
+ *
+ * Return: on success, 0
+ * else -1 is returned and the errno is set appropriately
+*/
+
 int handle_cd(char **args)
 {
 	char *new_directory = args[1], *home_directory = getenv("HOME"),
 	current_directory[4096];
 
 	if (new_directory == NULL || _strcmp(new_directory, "~") == 0)
-	{
 		new_directory = home_directory;
-	}
 	else if (_strcmp(new_directory, "-") == 0)
 	{
 		char *old_directory = getenv("OLDPWD");
@@ -88,7 +110,6 @@ int handle_cd(char **args)
 			return (-1);
 		}
 	}
-
 	if (getcwd(current_directory, sizeof(current_directory)) == NULL)
 	{
 		perror("getcwd");
@@ -102,7 +123,8 @@ int handle_cd(char **args)
 	}
 	else
 	{
-		if (setenv("OLDPWD", current_directory, 1) != 0 || setenv("PWD", new_directory, 1) != 0)
+		if (setenv("OLDPWD", current_directory, 1) != 0 ||
+		setenv("PWD", new_directory, 1) != 0)
 		{
 			perror("setenv");
 			return (-1);
@@ -110,6 +132,13 @@ int handle_cd(char **args)
 	}
 	return (0);
 }
+
+/**
+ * main - This is the entry point of our shell program
+ *
+ * Return: on success, 0
+ * else -1 is returned and the errno is set appropriately
+*/
 
 int main(void)
 {
@@ -123,7 +152,6 @@ int main(void)
 			write(STDOUT_FILENO, "Error occurred while getting input.\n", 36);
 			continue;
 		}
-
 		if (args[0] == NULL)
 		{
 			for (i = 0; args[i] != NULL; i++)
@@ -131,7 +159,6 @@ int main(void)
 			free(args);
 			continue;
 		}
-
 		if (_strchr(args[0], '/') != NULL)
 		{
 			run_path(args);
@@ -139,35 +166,19 @@ int main(void)
 		else
 		{
 			if (_strcmp(args[0], "exit") == 0)
-			{
 				handle_exit(args);
-			}
 			else if (_strcmp(args[0], "env") == 0)
-			{
-				/* Call the env_builtin function */
 				env_builtin();
-			}
 			else if (_strcmp(args[0], "setenv") == 0)
-			{
 				setenv_builtin(args);
-			}
 			else if (_strcmp(args[0], "unsetenv") == 0)
-			{
 				unsetenv_builtin(args);
-			}
 			else if (_strcmp(args[0], "cd") == 0)
-			{
 				handle_cd(args);
-			}
 			else
-			{
 				execute_command(args);
-			}
-
 			for (i = 0; args[i] != NULL; i++)
-			{
 				free(args[i]);
-			}
 			free(args);
 		}
 	}
